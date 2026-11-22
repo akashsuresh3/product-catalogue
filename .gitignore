@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.zip
+.gradle/
+local.properties
+build/
+.idea/
