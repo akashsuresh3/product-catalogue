@@ -1,0 +1,24 @@
+services:
+  mailpit:
+    # Local SMTP server + web inbox. Enquiry emails show up at http://localhost:8025
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # web UI
+      - "1025:1025"   # SMTP
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      EMAIL_PROVIDER: smtp
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      SALES_INBOX_EMAIL: sales@example.com
+      # Uncomment to curate the 5 home page products by ID (otherwise the 5 top rated are used):
+      # FEATURED_PRODUCT_IDS: "1,2,3,4,5"
+      # Set to "fixture" to run without internet access:
+      # PRODUCT_SOURCE: fixture
+    depends_on:
+      - mailpit
